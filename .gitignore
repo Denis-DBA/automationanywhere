@@ -1,0 +1,15 @@
+# Segredos e configuração local
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*credentials*.json
+*credential*.json
+*token*.json
+# Execuções/artefatos temporários
+*.log
+*.tmp
+~$*.xlsx
+.DS_Store
+Thumbs.db
