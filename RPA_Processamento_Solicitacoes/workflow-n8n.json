@@ -1,0 +1,100 @@
+{
+  "name": "RPA_Receber_Resultados",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://community.cloud.automationanywhere.digital/v4/automations/deploy",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "X-Authorization",
+              "value": "={{ $json.token }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"botId\": 33417795,\n  \"automationName\": \"RPA_Processamento_Solicitacoes\",\n  \"automationPriority\": \"PRIORITY_MEDIUM\",\n  \"attendedRequest\": {\n    \"deploymentDeviceId\": 0,\n    \"queueDeployment\": true,\n    \"launchInChildWindow\": false\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        448,
+        0
+      ],
+      "id": "b26231b4-d1ad-4de1-859c-fd584fdb0a57",
+      "name": "AA - Executar Bot"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://community.cloud.automationanywhere.digital/v2/authentication",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpCustomAuth",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        224,
+        0
+      ],
+      "id": "13e53c32-94a9-4a94-b180-17f5b413ce2d",
+      "name": "HTTP Request — Autenticação"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 8
+            },
+            {
+              "triggerAtHour": 17,
+              "triggerAtMinute": 20
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        16,
+        0
+      ],
+      "id": "986836a8-43ed-4647-919e-d21d38b0f77e",
+      "name": "Schedule Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "HTTP Request — Autenticação": {
+      "main": [
+        [
+          {
+            "node": "AA - Executar Bot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request — Autenticação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
